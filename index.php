@@ -48,15 +48,19 @@ if(isset($_POST['submit'])){
 		<section class="third-section">
 			<h3>Vous avez un projet? Parlons-en!</h3>
 			<p>Quelle que soit votre activité, nous avons la réponse, nous concevrons ensemble un système complet et performant.</p>
-			<div class="contact">	
-				<div class="link">
-					<img src="images/Icons/Icon-Mail.png" alt="Mail">
-					<a href="mailto:info@hybrid-concept.ch">info@hybrid-concept.ch</a>
-				</div>
-				<div class="link">
-					<img src="images/Icons/Icon-Phone.png" alt="Phone">
-					<a href="tel:+41229400865">+41 22 940 08 65</a>
-				</div>
+			<div class="contact">
+				<a href="mailto:info@hybrid-concept.ch">
+					<div class="link">
+						<img src="images/Icons/Icon-Mail.svg" alt="Mail">
+						<a>info@hybrid-concept.ch</a>
+					</div>
+				</a>
+				<a href="tel:+41229400865">
+					<div class="link">
+						<img src="images/Icons/Icon-Phone.svg" alt="Phone">
+						<a>+41 22 940 08 65</a>
+					</div>
+				</a>
 			</div>
 		</section>
 		<section class="fourth-section">
@@ -67,12 +71,16 @@ if(isset($_POST['submit'])){
 		<section class="form-section">
 			<h5>N’hésitez pas à nous contacter pour toutes demandes</h5>
 			<form action="" method="post">
-				<p><input type="text" name="last_name" placeholder="Nom"></p>
-				<p><input type="text" name="first_name" placeholder="Prénom"></p>
-				<p><input type="text" name="email" placeholder="E-mail"></p>
-				<p><input type="text" name="phone" placeholder="Téléphone"></p>
-				<p><input type="text" name="concern" placeholder="Concerne"></p>				
-				<p><textarea name="message" rows="5" placeholder="Message"></textarea></p>
+				<div class="identity">
+					<p><input type="text" name="last_name" placeholder="Nom" required></p>
+					<p><input type="text" name="first_name" placeholder="Prénom" required></p>
+				</div>
+				<div class="identity">
+					<p><input type="text" name="email" placeholder="E-mail" required></p>
+					<p><input type="text" name="phone" placeholder="Téléphone" required></p>
+				</div>
+				<p><input type="text" name="concern" placeholder="Concerne" required></p>		
+				<p><textarea name="message" rows="5" placeholder="Message" required></textarea></p>
 				<p class="button-submit"><button type="submit">ENVOYER</button></p>
 			</form>
 		</section>
@@ -80,6 +88,5 @@ if(isset($_POST['submit'])){
 			<p><bold>&copy; WILD-DESIGN.CH</bold> – Tous droits reservés Hybrid Concept A. D. Sàrl</p>
 		</footer>
 	</main>
-	
 </body>
 </html>

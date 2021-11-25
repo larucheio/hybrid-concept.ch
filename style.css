@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;600;700;900&display=swap');
 
 * {
 	margin: 0;
@@ -29,7 +29,7 @@ header {
 }
 
 header img {
-	max-width: 45%;
+	max-width: 180px;
 	margin: 1.2rem auto;
 }
 
@@ -39,7 +39,7 @@ h1, h2, h3, h4, p, form {
 }
 
 h1 {
-	font-weight: 800;
+	font-weight: 900;
 	font-size: 1.6rem;
 
 	color: white;
@@ -50,7 +50,7 @@ h2, h3 {
 }
 
 h2 {
-	font-weight: 500;
+	font-weight: 700;
 	font-size: 1.1rem;
 
 	padding-top: 30px;
@@ -93,7 +93,7 @@ p {
 }
 
 .link a {
-	font-weight: 600;
+	font-weight: 700;
 	text-decoration: none;
 	color: black;
 
@@ -113,7 +113,7 @@ p {
 
 h4 {
 	font-size: 0.9rem;
-	font-weight: 500;
+	font-weight: 700;
 
 	padding-top: 20px;
 }
@@ -136,7 +136,7 @@ h5 {
 	margin: auto;
 	padding-bottom: 30px;
 
-	font-weight: 500;
+	font-weight: 700;
 	font-size: 1rem;
 }
 
@@ -147,7 +147,7 @@ input[type="text"], textarea {
 
 	text-align: left;
 
-	font-weight: 700;
+	font-weight: 300;
 	font-size: 0.6rem;
 
 	background-color: #141414;
@@ -156,9 +156,9 @@ input[type="text"], textarea {
 	border-style: none;
 }
 
-
 ::placeholder {
 	padding-left: 5px;
+	color: white;
 }
 
 button {
@@ -184,4 +184,92 @@ footer p {
 
 footer p bold {
 	font-weight: 700;
+}
+
+@media screen and (min-width: 769px){
+
+	h1, h2, h3, h4, p {
+		width: 74%;
+	}
+	
+	h1 {
+		font-size: 2rem;
+	}
+	
+	h2 {
+		font-size: 1.4rem;
+	}
+
+	.second-section {
+		display: flex;
+		justify-content: center;
+	}
+
+	.second-section article {
+		width: 45%;
+	}
+
+	.third-section p {
+		width: 80vw;
+	}
+
+	.contact {
+		width: 72%;
+		margin: auto;
+		display: flex;
+	}
+
+	.contact img {
+		width: 60px;
+	}
+
+	h4, .fourth-section p {
+		font-size: 1rem;
+	}
+
+	h5 {
+		width: 74%;
+		font-size: 1.35rem;
+	}
+
+	form {
+		width: 76%;
+	}
+
+	form p {
+		width: 100%;
+	}
+
+	.identity {
+		display: flex;
+	}
+
+	.identity p {
+		width: 49%;
+	}
+
+	input[type="text"] {
+		padding: 12px 0;
+		margin-bottom: 10px;
+
+	}
+
+	textarea::placeholder {
+		padding-top: 10px;
+	}
+
+	button {
+		font-size: 0.6rem;
+
+		padding: 12px 30px;
+		margin-bottom: 30px;
+	}
+
+	footer p {
+
+		font-size: 0.6rem;
+		margin: 10px 0;
+		text-align: left;
+		padding-left: 13%;
+	}
 }
