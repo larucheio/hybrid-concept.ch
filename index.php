@@ -167,9 +167,9 @@ if (isset($form['submit'])) {
     			</form>
             <?php } ?>
 		</section>
-		<footer>
-			<p><bold>&copy; <a href="https://wild-design.ch/" target="_blank">WILD-DESIGN.CH</a></bold> – Tous droits reservés Hybrid Concept A. D. Sàrl</p>
-		</footer>
 	</main>
+    <footer>
+        <p><bold>&copy; <a href="https://wild-design.ch/" target="_blank">WILD-DESIGN.CH</a></bold> – Tous droits reservés Hybrid Concept A. D. Sàrl</p>
+    </footer>
 </body>
 </html>
