@@ -118,13 +118,13 @@ if (isset($form['submit'])) {
 				<a href="mailto:info@hybrid-concept.ch">
 					<div class="link">
 						<img src="/images/icons/icon-mail.svg" alt="Mail">
-						<a>info@hybrid-concept.ch</a>
+						<span>info@hybrid-concept.ch</span>
 					</div>
 				</a>
 				<a href="tel:+41229400865">
 					<div class="link">
 						<img src="/images/icons/icon-phone.svg" alt="Phone">
-						<a>+41 22 940 08 65</a>
+						<span>+41 22 940 08 65</span>
 					</div>
 				</a>
 			</div>
@@ -154,15 +154,15 @@ if (isset($form['submit'])) {
     			<form action="<?=$_SERVER['PHP_SELF'];?>" method="post">
                     <input type="text" name="subject" class="hide-robot">
     				<div class="identity">
-    					<p><input type="text" name="last_name" placeholder="Nom"></p>
-    					<p><input type="text" name="first_name" placeholder="Prénom" required></p>
+    					<input type="text" name="last_name" placeholder="Nom">
+    					<input type="text" name="first_name" placeholder="Prénom" required>
     				</div>
     				<div class="identity">
-    					<p><input type="text" name="email" placeholder="E-mail" required></p>
-    					<p><input type="text" name="phone" placeholder="Téléphone" required></p>
+    					<input type="text" name="email" placeholder="E-mail" required>
+    					<input type="text" name="phone" placeholder="Téléphone" required>
     				</div>
-    				<p><input type="text" name="concern" placeholder="Concerne" required></p>
-    				<p><textarea name="message" rows="5" placeholder="Message" required></textarea></p>
+    				<input type="text" name="concern" placeholder="Concerne" required>
+    				<textarea name="message" rows="5" placeholder="Message" required></textarea>
     				<p class="button-submit"><button type="submit" name="submit">ENVOYER</button></p>
     			</form>
             <?php } ?>
