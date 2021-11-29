@@ -2,6 +2,12 @@
 
 :root {
   --gutter: 13%;
+  --content-max-width: 1400px;
+}
+
+.container {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
 }
 
 * {
@@ -97,7 +103,7 @@ p {
 }
 
 .contact a {
-  flex-basis: 45%;
+  flex-basis: 50%;
 	font-weight: 700;
 	text-decoration: none !important;
 	color: black;
@@ -208,7 +214,7 @@ footer a {
 		font-size: 1.4rem;
 	}
 
-	.second-section {
+	.second-section .container {
 		display: flex;
 		justify-content: space-between;
 	}
@@ -221,10 +227,6 @@ footer a {
 		display: flex;
     justify-content: space-between;
 	}
-
-  .contact .link {
-    flex-basis: 45%;
-  }
 
 	.contact img {
 		width: 60px;
