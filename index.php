@@ -1,89 +1,106 @@
 <?php
-// define variables and set to empty values
-$last_name_err = $first_name_err = $email_err = $phone_err = $concern_err = $message_err = "";
-$last_name = $first_name = $email = $phone = $concern = $message = "";
+// 1. Soumet le formulaire
+// 2. Récupère le formulaire
+// 3. Validation des données (si erreur de validation -> retour back() avec erreurs)
+// 4. Escape inputs (htmlspecialchars)
+// 5. Send email
+// 6. Display message (that the email was sent)
 
-if(isset($_POST['submit'])) {
-	  if (empty($_POST["last_name"])) {
-    $last_name_err = "Veuillez renseigner votre nom";
-  } else {
-    $last_name = test_input($_POST["last_name"]);
-  }
-
-  if (empty($_POST["first_name"])) {
-    $first_name_err = "Veuillez renseigner votre prénom";
-  } else {
-    $first_name = test_input($_POST["first_name"]);
-  }
-
-  if (empty($_POST["email"])) {
-    $email_err = "Veuillez renseigner votre email";
-  } else {
-    $email = test_input($_POST["email"]);
-  }
-
-  if (empty($_POST["phone"])) {
-    $phone_err = "Veuillez renseigner votre téléphone";
-  } else {
-    $phone = test_input($_POST["phone"]);
-  }
-
-  if (empty($_POST["concern"])) {
-    $concern_err = "Veuillez préciser le sujet de votre demande";
-  } else {
-    $concern = test_input($_POST["concern"]);
-  }
-
-  if (empty($_POST["message"])) {
-    $message_err = "Veuillez détailler votre demande";
-  } else {
-    $message = test_input($_POST["message"]);
-  }
+function escape_data($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
 }
 
-function test_input($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
+function send_mail($data)
+{
+    $to = 'info@hybrid-concept.ch';
+    $subject = '[hybrid-concept.ch] - ' . $data['concern'];
+    $message = $message = $data['first_name'] . " " . $data['last_name'] . " / " . $data['phone'] . "\n\n" . $data['message'];
+    $additional_params = [
+        'from' => $data['email']
+    ];
+
+    mail($to, $subject, $message, $additional_params);
 }
 
-// if(isset($_POST['submit'])){
-//     $to = "la_meche_et_les_sens@hotmail.fr"; // this is your Email address
-//     $from = $_POST['email']; // this is the sender's Email address
-//     $last_name = $_POST['last_name'];
-//     $first_name = $_POST['first_name'];
-// 		$phone = $_POST['phone'];
-// 		$concern = $_POST['concern'];
-//     $subject = "Form submission";
-//     $subject2 = "Copy of your form submission";
-//     $message = $first_name . " " . $last_name . " dont le téléphone est: " . $phone . " tente de vous joindre au sujet de:" . $concern . " en vous laissant ce message:" . "\n\n" . $_POST['message'];
+$fields = [
+    'last_name' => 'Veuillez renseigner votre nom',
+    'first_name' => 'Veuillez renseigner votre prénom',
+    'email' => 'Veuillez renseigner votre email',
+    'phone' => 'Veuillez renseigner votre téléphone',
+    'concern' => 'Veuillez renseigner le sujet de votre demande',
+    'message' => 'Veuillez renseigner votre message',
+];
 
-//     $headers = "From:" . $from;
-//     mail($to,$subject,$message,$headers);
-//     echo "Mail Sent. Thank you " . $first_name . ", we will contact you shortly.";
-//     // You can also use header('Location: thank_you.php'); to redirect to another page.
-//     // You cannot use header and echo together. It's one or the other.
-//     }
+$errors = [];
+$email_has_been_sent = false;
+
+// 2.
+$form = $_POST;
+if (isset($form['submit'])) {
+    $email_has_been_sent = false;
+
+    if ($form['subject']) {
+        return;
+    }
+
+    // 3.
+    $errors = []; // Reset errors;
+    foreach ($fields as $key => $value) {
+        $form[$key] ? null : array_push($errors, $value);
+    }
+    // $form['last_name'] ? null : array_push($errors, 'Veuillez renseigner votre nom');
+    // $form['first_name'] ? null : array_push($errors, 'Veuillez renseigner votre prénom');
+    // $form['email'] ? null : array_push($errors, 'Veuillez renseigner votre email');
+    // $form['phone'] ? null : array_push($errors, 'Veuillez renseigner votre téléphone');
+    // $form['concern'] ? null : array_push($errors, 'Veuillez renseigner le sujet de votre message');
+    // $form['message'] ? null : array_push($errors, 'Veuillez renseigner votre message');
+
+    // If no errors -> pursue
+    if (sizeof($errors) < 1) {
+        // 4.
+        $data = [];
+        foreach ($fields as $key => $value) {
+            $data[$key] = escape_data($form[$key]);
+        }
+        // $data['last_name'] = escape_data($form['last_name']);
+        // $data['first_name'] = escape_data($form['first_name']);
+        // $data['email'] = escape_data($form['email']);
+        // $data['phone'] = escape_data($form['phone']);
+        // $data['concern'] = escape_data($form['concern']);
+        // $data['message'] = escape_data($form['message']);
+
+        // 5.
+        send_mail($data);
+
+        // 6.
+        $email_has_been_sent = true;
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
+<!-- dev: laruche — https://laruche.io -->
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Hybrid Concept</title>
-	<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Concept</title>
+    <meta name="description" content="Vente, location et installation de systèmes de sonorisation, d’éclairage et de materiel DJ; au cœur de Genève.">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-	<header>
-		<img src="images/Logo/Logo.jpg" alt="logo">
-	</header>
+    <header>
+        <img src="/images/logo/logo.svg" alt="Hybrid Concept - Logo">
+    </header>
 	<main>
-		<section class="first-section">
-			<h1>Vente, location et installation de systèmes de sonorisation, d’éclairage et de materiel DJ; au cœur de Genève.</h1>
-			<h2>Une expérience de plus de 25 ans dans le domaine de la sonorisation et de l’éclairage professionnels nous permet de vous proposer les solutions les mieux adaptées à vos besoins et à vos budgets.</h2>
-		</section>
+        <section class="first-section">
+            <h1>Vente, location et installation de systèmes de sonorisation, d’éclairage et de materiel DJ; au cœur de Genève.</h1>
+            <h2>Une expérience de plus de 25 ans dans le domaine de la sonorisation et de l’éclairage professionnels nous permet de vous proposer les solutions les mieux adaptées à vos besoins et à vos budgets.</h2>
+        </section>
 		<section class="second-section">
 			<article>
 				<h3>Partenariat</h3>
@@ -100,42 +117,58 @@ function test_input($data) {
 			<div class="contact">
 				<a href="mailto:info@hybrid-concept.ch">
 					<div class="link">
-						<img src="images/Icons/Icon-Mail.svg" alt="Mail">
+						<img src="/images/icons/icon-mail.svg" alt="Mail">
 						<a>info@hybrid-concept.ch</a>
 					</div>
 				</a>
 				<a href="tel:+41229400865">
 					<div class="link">
-						<img src="images/Icons/Icon-Phone.svg" alt="Phone">
+						<img src="/images/icons/icon-phone.svg" alt="Phone">
 						<a>+41 22 940 08 65</a>
 					</div>
 				</a>
 			</div>
 		</section>
 		<section class="fourth-section">
-			<iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2761.1095550881287!2d6.1351969155927!3d46.20827557911685!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478c64d9ef255555%3A0xbe8f39c73c4b9ee4!2sRue%20Benjamin-Franklin%204%2C%201201%20Gen%C3%A8ve%2C%20Suisse!5e0!3m2!1sfr!2sfr!4v1637742659949!5m2!1sfr!2sfr" width="1200" height="600" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-			<h4>Adresse</h4>
+            <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2761.1095540383935!2d6.1373856!3d46.2082756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478c64d9efbc8a23%3A0xc9cdfa3b3c9ec4c6!2sHybrid%20Concept%2C%20Donati!5e0!3m2!1sfr!2sch!4v1638192797715!5m2!1sfr!2sch" width="1200" height="600" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <h4>Adresse</h4>
 			<p>Rue Benjamin-Franklin 4-6, 1201 Genève</p>
 		</section>
 		<section class="form-section">
-			<h5>N’hésitez pas à nous contacter pour toutes demandes</h5>
-			
-			<form action="" method="post">
-				<div class="identity">
-					<p><input type="text" name="last_name" placeholder="Nom" required></p>
-					<p><input type="text" name="first_name" placeholder="Prénom" required></p>
-				</div>
-				<div class="identity">
-					<p><input type="text" name="email" placeholder="E-mail" required></p>
-					<p><input type="text" name="phone" placeholder="Téléphone" required></p>
-				</div>
-				<p><input type="text" name="concern" placeholder="Concerne" required></p>
-				<p><textarea name="message" rows="5" placeholder="Message" required></textarea></p>
-				<p class="button-submit"><button type="submit">ENVOYER</button></p>
-			</form>
+            <?php
+            if ($email_has_been_sent) {
+                echo "<h5>Votre demande nous as été transmise. Nous nous en occupons dans les plus brefs délais.</h5>";
+            } else {
+            ?>
+            <h5>N’hésitez pas à nous contacter pour toutes demandes</h5>
+                <?php
+                if (sizeof($errors) > 0) {
+                    echo "<ul>";
+                    foreach ($errors as $error) {
+                        echo "<li>" . $error . "</li>";
+                    }
+                    echo "</ul>";
+                }
+                ?>
+
+    			<form action="<?=$_SERVER['PHP_SELF'];?>" method="post">
+                    <input type="text" name="subject" class="hide-robot">
+    				<div class="identity">
+    					<p><input type="text" name="last_name" placeholder="Nom"></p>
+    					<p><input type="text" name="first_name" placeholder="Prénom" required></p>
+    				</div>
+    				<div class="identity">
+    					<p><input type="text" name="email" placeholder="E-mail" required></p>
+    					<p><input type="text" name="phone" placeholder="Téléphone" required></p>
+    				</div>
+    				<p><input type="text" name="concern" placeholder="Concerne" required></p>
+    				<p><textarea name="message" rows="5" placeholder="Message" required></textarea></p>
+    				<p class="button-submit"><button type="submit" name="submit">ENVOYER</button></p>
+    			</form>
+            <?php } ?>
 		</section>
 		<footer>
-			<p><bold>&copy; WILD-DESIGN.CH</bold> – Tous droits reservés Hybrid Concept A. D. Sàrl</p>
+			<p><bold>&copy; <a href="https://wild-design.ch/" target="_blank">WILD-DESIGN.CH</a></bold> – Tous droits reservés Hybrid Concept A. D. Sàrl</p>
 		</footer>
 	</main>
 </body>
