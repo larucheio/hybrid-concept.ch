@@ -1,21 +1,70 @@
-<?php 
-if(isset($_POST['submit'])){
-    $to = "la_meche_et_les_sens@hotmail.fr"; // this is your Email address
-    $from = $_POST['email']; // this is the sender's Email address
-    $last_name = $_POST['last_name'];
-    $first_name = $_POST['first_name'];
-		$phone = $_POST['phone'];
-		$concern = $_POST['concern'];
-    $subject = "Form submission";
-    $subject2 = "Copy of your form submission";
-    $message = $first_name . " " . $last_name . " dont le téléphone est: " . $phone . " tente de vous joindre au sujet de:" . $concern . " en vous laissant ce message:" . "\n\n" . $_POST['message'];
+<?php
+// define variables and set to empty values
+$last_name_err = $first_name_err = $email_err = $phone_err = $concern_err = $message_err = "";
+$last_name = $first_name = $email = $phone = $concern = $message = "";
 
-    $headers = "From:" . $from;
-    mail($to,$subject,$message,$headers);
-    echo "Mail Sent. Thank you " . $first_name . ", we will contact you shortly.";
-    // You can also use header('Location: thank_you.php'); to redirect to another page.
-    // You cannot use header and echo together. It's one or the other.
-    }
+if(isset($_POST['submit'])) {
+	  if (empty($_POST["last_name"])) {
+    $last_name_err = "Veuillez renseigner votre nom";
+  } else {
+    $last_name = test_input($_POST["last_name"]);
+  }
+
+  if (empty($_POST["first_name"])) {
+    $first_name_err = "Veuillez renseigner votre prénom";
+  } else {
+    $first_name = test_input($_POST["first_name"]);
+  }
+
+  if (empty($_POST["email"])) {
+    $email_err = "Veuillez renseigner votre email";
+  } else {
+    $email = test_input($_POST["email"]);
+  }
+
+  if (empty($_POST["phone"])) {
+    $phone_err = "Veuillez renseigner votre téléphone";
+  } else {
+    $phone = test_input($_POST["phone"]);
+  }
+
+  if (empty($_POST["concern"])) {
+    $concern_err = "Veuillez préciser le sujet de votre demande";
+  } else {
+    $concern = test_input($_POST["concern"]);
+  }
+
+  if (empty($_POST["message"])) {
+    $message_err = "Veuillez détailler votre demande";
+  } else {
+    $message = test_input($_POST["message"]);
+  }
+}
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+
+// if(isset($_POST['submit'])){
+//     $to = "la_meche_et_les_sens@hotmail.fr"; // this is your Email address
+//     $from = $_POST['email']; // this is the sender's Email address
+//     $last_name = $_POST['last_name'];
+//     $first_name = $_POST['first_name'];
+// 		$phone = $_POST['phone'];
+// 		$concern = $_POST['concern'];
+//     $subject = "Form submission";
+//     $subject2 = "Copy of your form submission";
+//     $message = $first_name . " " . $last_name . " dont le téléphone est: " . $phone . " tente de vous joindre au sujet de:" . $concern . " en vous laissant ce message:" . "\n\n" . $_POST['message'];
+
+//     $headers = "From:" . $from;
+//     mail($to,$subject,$message,$headers);
+//     echo "Mail Sent. Thank you " . $first_name . ", we will contact you shortly.";
+//     // You can also use header('Location: thank_you.php'); to redirect to another page.
+//     // You cannot use header and echo together. It's one or the other.
+//     }
 ?>
 
 <!DOCTYPE html>
@@ -70,6 +119,7 @@ if(isset($_POST['submit'])){
 		</section>
 		<section class="form-section">
 			<h5>N’hésitez pas à nous contacter pour toutes demandes</h5>
+			
 			<form action="" method="post">
 				<div class="identity">
 					<p><input type="text" name="last_name" placeholder="Nom" required></p>
@@ -79,7 +129,7 @@ if(isset($_POST['submit'])){
 					<p><input type="text" name="email" placeholder="E-mail" required></p>
 					<p><input type="text" name="phone" placeholder="Téléphone" required></p>
 				</div>
-				<p><input type="text" name="concern" placeholder="Concerne" required></p>		
+				<p><input type="text" name="concern" placeholder="Concerne" required></p>
 				<p><textarea name="message" rows="5" placeholder="Message" required></textarea></p>
 				<p class="button-submit"><button type="submit">ENVOYER</button></p>
 			</form>

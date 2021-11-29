@@ -131,6 +131,10 @@ h4 {
 	color: white;
 }
 
+.error {
+	color: red;
+}
+
 h5 {
 	width: 60%;
 	margin: auto;
